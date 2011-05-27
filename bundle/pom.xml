@@ -34,8 +34,8 @@
       <version>${version}</version>
     </dependency>
     <dependency>
-      <groupId>org.jboss.osgi</groupId>
-      <artifactId>jboss-osgi-spi</artifactId>
+      <groupId>org.jboss.osgi.spi</groupId>
+      <artifactId>jbosgi-spi</artifactId>
     </dependency>
     
     <!-- Provided Dependencies -->

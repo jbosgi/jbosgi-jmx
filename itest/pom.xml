@@ -29,10 +29,13 @@
   <!-- Properties -->
   <properties>
     <version.apache.felix.log>1.0.0</version.apache.felix.log>
+    <version.jboss.logmanager>1.2.0.CR8</version.jboss.logmanager>
     <version.jboss.osgi.common>1.0.6</version.jboss.osgi.common>
     <version.jboss.osgi.common.core>2.2.17.SP1</version.jboss.osgi.common.core>
+    <version.jboss.osgi.framework>1.0.0.CR3</version.jboss.osgi.framework>
     <version.jboss.osgi.jndi>1.0.4</version.jboss.osgi.jndi>
-    <version.jboss.osgi.felix>2.0.4</version.jboss.osgi.felix>
+    <version.jboss.osgi.resolver>1.0.9</version.jboss.osgi.resolver>
+    <version.jboss.osgi.vfs>1.0.6</version.jboss.osgi.vfs>
   </properties>
   
   <!-- Dependencies -->
@@ -43,8 +46,8 @@
       <version>${version}</version>
     </dependency>
     <dependency>
-      <groupId>org.jboss.osgi</groupId>
-      <artifactId>jboss-osgi-spi</artifactId>
+      <groupId>org.jboss.osgi.spi</groupId>
+      <artifactId>jbosgi-spi</artifactId>
     </dependency>
     
     <!-- Provided Dependencies -->
@@ -87,6 +90,12 @@
       <version>${version.jboss.osgi.jndi}</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.osgi.jmx</groupId>
+      <artifactId>jboss-osgi-jmx</artifactId>
+      <version>${version}</version>
+      <scope>provided</scope>
+    </dependency>
     
     <!-- OSGi Dependencies -->
     <dependency>
@@ -102,14 +111,27 @@
     
     <!-- Test Dependencies -->
     <dependency>
-      <groupId>org.jboss.osgi.felix</groupId>
-      <artifactId>jboss-osgi-felix</artifactId>
-      <version>${version.jboss.osgi.felix}</version>
+      <groupId>org.jboss.osgi.framework</groupId>
+      <artifactId>jbosgi-framework-core</artifactId>
+      <version>${version.jboss.osgi.framework}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
+      <groupId>org.jboss.osgi.resolver</groupId>
+      <artifactId>jbosgi-resolver-felix</artifactId>
+      <version>${version.jboss.osgi.resolver}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.osgi.vfs</groupId>
+      <artifactId>jbosgi-vfs30</artifactId>
+      <version>${version.jboss.osgi.vfs}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.logmanager</groupId>
+      <artifactId>jboss-logmanager</artifactId>
+      <version>${version.jboss.logmanager}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -157,14 +179,10 @@
               <skip>false</skip>
               <argLine>${surefire.jpda.args}</argLine>
               <systemProperties>
-                <property>
-                  <name>log4j.output.dir</name>
-                  <value>${project.build.directory}</value>
-                </property>
-                <property>
-                  <name>project.version</name>
-                  <value>${project.version}</value>
-                </property>
+	            <property>
+	                <name>java.util.logging.manager</name>
+	                <value>org.jboss.logmanager.LogManager</value>
+	            </property>
                 <property>
                   <name>test.archive.directory</name>
                   <value>${project.build.directory}/test-libs</value>

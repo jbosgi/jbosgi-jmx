@@ -74,6 +74,7 @@ public class JMXCapability extends Capability
 
       addBundle("bundles/jboss-osgi-jmx.jar");
       addBundle("bundles/org.apache.aries.jmx.jar");
+      addBundle("bundles/org.apache.aries.util.jar");
    }
 
    @Override

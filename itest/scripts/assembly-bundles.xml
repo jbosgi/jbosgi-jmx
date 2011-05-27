@@ -18,7 +18,9 @@
         <include>*:jboss-osgi-common:jar</include>
         <include>*:jboss-osgi-common-core:jar</include>
         <include>*:jboss-osgi-jndi:jar</include>
+        <include>*:jboss-osgi-jmx:jar</include>
         <include>*:org.apache.aries.jmx:jar</include>
+        <include>*:org.apache.aries.util:jar</include>
         <include>*:org.apache.felix.log:jar</include>
         <include>*:org.osgi.compendium:jar</include>
       </includes>
