@@ -22,18 +22,17 @@
 package org.jboss.test.osgi.jmx;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import javax.management.ObjectName;
-import javax.management.openmbean.TabularData;
-
-import org.jboss.osgi.jmx.BundleStateMBeanExt;
 import org.jboss.osgi.jmx.ObjectNameFactory;
 import org.junit.Test;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.jmx.framework.BundleStateMBean;
+
+import javax.management.ObjectName;
+import javax.management.openmbean.TabularData;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A test that excercises the BundleStateMBean
@@ -46,7 +45,7 @@ public class BundleStateTestCase extends AbstractJMXTestCase
    @Test
    public void testMBeanAccess() throws Exception
    {
-      ObjectName oname = ObjectNameFactory.create(BundleStateMBeanExt.OBJECTNAME);
+      ObjectName oname = ObjectNameFactory.create(BundleStateMBean.OBJECTNAME);
       assertTrue("Registerd " + oname, getMBeanServer().isRegistered(oname));
    }
    

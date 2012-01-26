@@ -22,20 +22,14 @@
 package org.jboss.test.osgi.jmx;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import javax.management.MBeanServer;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.TabularData;
-
-import org.jboss.osgi.jmx.ServiceStateMBeanExt;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
-import org.osgi.jmx.JmxConstants;
 import org.osgi.jmx.framework.ServiceStateMBean;
+
+import javax.management.openmbean.TabularData;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * A test that excercises the ServiceStateMBean
@@ -46,7 +40,7 @@ import org.osgi.jmx.framework.ServiceStateMBean;
 public class ServiceStateTestCase extends AbstractJMXTestCase
 {
    @Test
-   public void listServices() throws Exception
+   public void testListServices() throws Exception
    {
       BundleContext systemContext = getFramework().getBundleContext();
       ServiceReference[] srefs = systemContext.getServiceReferences(null, null);
@@ -54,34 +48,5 @@ public class ServiceStateTestCase extends AbstractJMXTestCase
       ServiceStateMBean serviceState = getServiceStateMBean();
       TabularData data = serviceState.listServices();
       assertEquals("Number of services", srefs.length, data.size());
-   }
-
-   @Test
-   public void getService() throws Exception
-   {
-      ServiceStateMBeanExt serviceState = (ServiceStateMBeanExt)getServiceStateMBean();
-      CompositeData serviceData = serviceState.getService(MBeanServer.class.getName());
-      assertNotNull("MBeanServer service not null", serviceData);
-      
-      Long serviceId = (Long)serviceData.get(ServiceStateMBean.IDENTIFIER);
-      assertNotNull("service.id not null", serviceId);
-      
-      TabularData props = serviceState.getProperties(serviceId);
-      assertNotNull("Properties not null", props);
-      
-      CompositeData idData = props.get(new Object[] { Constants.SERVICE_ID });
-      assertEquals(serviceId.toString(), idData.get(JmxConstants.VALUE));
-   }
-
-   @Test
-   public void getServices() throws Exception
-   {
-      BundleContext systemContext = getFramework().getBundleContext();
-      ServiceReference sref = systemContext.getServiceReference(MBeanServer.class.getName());
-      Long serviceID = (Long)sref.getProperty(Constants.SERVICE_ID);
-      
-      ServiceStateMBeanExt serviceState = (ServiceStateMBeanExt)getServiceStateMBean();
-      TabularData data = serviceState.getServices(null, "(service.id=" + serviceID + ")");
-      assertEquals("MBeanServer service not null", 1, data.size());
    }
 }

@@ -51,35 +51,12 @@ public class JMXServiceActivator implements BundleActivator
    private String rmiHost;
    private String rmiPortStr;
    private MBeanServer mbeanServer;
-   private FrameworkStateExt frameworkState;
-   private ServiceStateExt serviceState;
-   private BundleStateExt bundleState;
-   private PackageStateExt packageState;
 
    public void start(BundleContext context)
    {
       // Register the MBeanServer 
       MBeanServerService service = new MBeanServerService(context);
       mbeanServer = service.registerMBeanServer();
-
-      // Get the system BundleContext
-      BundleContext sysContext = context.getBundle(0).getBundleContext();
-
-      // Register the FrameworkMBean
-      frameworkState = new FrameworkStateExt(sysContext, mbeanServer);
-      frameworkState.start();
-
-      // Register the ServiceStateMBean 
-      serviceState = new ServiceStateExt(sysContext, mbeanServer);
-      serviceState.start();
-
-      // Register the BundleStateMBean 
-      bundleState = new BundleStateExt(sysContext, mbeanServer);
-      bundleState.start();
-
-      // Register the PackageStateMBean 
-      packageState = new PackageStateExt(sysContext, mbeanServer);
-      packageState.start();
 
       rmiHost = context.getProperty(REMOTE_RMI_HOST);
       if (rmiHost == null)
@@ -107,18 +84,6 @@ public class JMXServiceActivator implements BundleActivator
 
    public void stop(BundleContext context)
    {
-      // Unregister the FrameworkMBean
-      frameworkState.stop();
-
-      // Unregister the ServiceStateMBean
-      serviceState.stop();
-
-      // Unregister the BundleStateMBean 
-      bundleState.stop();
-
-      // Unregister the PackageStateMBean 
-      packageState.stop();
-
       if (jmxConnector != null)
       {
          jmxConnector.stop();

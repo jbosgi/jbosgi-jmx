@@ -22,14 +22,13 @@
 package org.jboss.test.osgi.jmx;
 
 
-import static org.junit.Assert.assertTrue;
-
-import javax.management.ObjectName;
-
-import org.jboss.osgi.jmx.FrameworkMBeanExt;
 import org.jboss.osgi.jmx.ObjectNameFactory;
 import org.junit.Test;
 import org.osgi.jmx.framework.FrameworkMBean;
+
+import javax.management.ObjectName;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * A test that excercises the FramworkMBean
@@ -43,9 +42,6 @@ public class FrameworkTestCase extends AbstractJMXTestCase
    public void testMBeanAccess() throws Exception
    {
       ObjectName oname = ObjectNameFactory.create(FrameworkMBean.OBJECTNAME);
-      assertTrue("Registerd " + oname, getMBeanServer().isRegistered(oname));
-      
-      oname = ObjectNameFactory.create(FrameworkMBeanExt.OBJECTNAME);
       assertTrue("Registerd " + oname, getMBeanServer().isRegistered(oname));
    }
 }
