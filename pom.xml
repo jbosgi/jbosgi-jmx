@@ -77,6 +77,12 @@
             <dependency>
                 <groupId>org.jboss.osgi.framework</groupId>
                 <artifactId>jbosgi-framework-core</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss.osgi.jmx</groupId>
+                        <artifactId>jboss-osgi-jmx-api</artifactId>
+                    </exclusion>
+                </exclusions>
                 <version>${version.jboss.osgi.framework}</version>
             </dependency>
             <dependency>
