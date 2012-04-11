@@ -20,7 +20,6 @@
 
     <name>JBossOSGi JMX Bundle</name>
 
-    <groupId>org.jboss.osgi.jmx</groupId>
     <artifactId>jbosgi-jmx</artifactId>
     <packaging>bundle</packaging>
 
@@ -37,7 +36,13 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- OSGi Dependencies -->
+        <!-- Provided Dependencies -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging-processor</artifactId>
+            <version>${version.jboss.logging.processor}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>

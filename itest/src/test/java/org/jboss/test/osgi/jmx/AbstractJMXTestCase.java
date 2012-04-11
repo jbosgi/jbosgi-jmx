@@ -22,20 +22,21 @@
 package org.jboss.test.osgi.jmx;
 
 
-import org.jboss.logging.Logger;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.management.MBeanServer;
+import javax.management.MBeanServerConnection;
+import javax.management.MBeanServerFactory;
+import javax.management.ObjectName;
+
+import org.jboss.osgi.jmx.MBeanProxy;
 import org.jboss.osgi.jmx.ObjectNameFactory;
 import org.jboss.osgi.testing.OSGiFrameworkTest;
 import org.junit.Before;
 import org.osgi.jmx.framework.BundleStateMBean;
 import org.osgi.jmx.framework.FrameworkMBean;
 import org.osgi.jmx.framework.ServiceStateMBean;
-
-import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
-import javax.management.MBeanServerFactory;
-import javax.management.ObjectName;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * An abstract JMX test case.
@@ -44,8 +45,6 @@ import java.util.ArrayList;
  * @since 23-Feb-2010
  */
 public abstract class AbstractJMXTestCase extends OSGiFrameworkTest {
-    // Provide logging
-    private static final Logger log = Logger.getLogger(AbstractJMXTestCase.class);
 
     private MBeanServer server;
 
@@ -71,8 +70,6 @@ public abstract class AbstractJMXTestCase extends OSGiFrameworkTest {
     }
 
     private void assertMBeanRegistration(boolean state) throws IOException {
-        log.debug("assertMBeanRegistration: " + state);
-
         MBeanServer server = (MBeanServer) getMBeanServer();
         ObjectName fwkName = ObjectNameFactory.create(FrameworkMBean.OBJECTNAME);
         ObjectName bndName = ObjectNameFactory.create(BundleStateMBean.OBJECTNAME);
@@ -92,18 +89,25 @@ public abstract class AbstractJMXTestCase extends OSGiFrameworkTest {
                 // ignore
             }
         }
-
-        if (isMBeanRegistered(server, fwkName, state) == false)
-            log.warn("FrameworkMBean " + (state ? "not" : "still") + " registered");
-        if (isMBeanRegistered(server, bndName, state) == false)
-            log.warn("BundleStateMBean " + (state ? "not" : "still") + " registered");
-        if (isMBeanRegistered(server, srvName, state) == false)
-            log.warn("ServiceStateMBean " + (state ? "not" : "still") + " registered");
     }
 
     protected boolean isMBeanRegistered(MBeanServerConnection server, ObjectName oname, boolean state) throws IOException {
         boolean registered = server.isRegistered(oname);
-        log.debug(oname + " registered: " + registered);
         return registered == state;
+    }
+
+    protected FrameworkMBean getFrameworkMBean() throws IOException {
+        ObjectName oname = ObjectNameFactory.create(FrameworkMBean.OBJECTNAME);
+        return MBeanProxy.get(getMBeanServer(), oname, FrameworkMBean.class);
+    }
+
+    protected BundleStateMBean getBundleStateMBean() throws IOException {
+        ObjectName oname = ObjectNameFactory.create(BundleStateMBean.OBJECTNAME);
+        return MBeanProxy.get(getMBeanServer(), oname, BundleStateMBean.class);
+    }
+
+    protected ServiceStateMBean getServiceStateMBean() throws IOException {
+        ObjectName oname = ObjectNameFactory.create(ServiceStateMBean.OBJECTNAME);
+        return MBeanProxy.get(getMBeanServer(), oname, ServiceStateMBean.class);
     }
 }

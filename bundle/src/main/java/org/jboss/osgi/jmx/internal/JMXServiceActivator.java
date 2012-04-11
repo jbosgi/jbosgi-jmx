@@ -22,17 +22,17 @@
 package org.jboss.osgi.jmx.internal;
 
 
-import static org.jboss.osgi.jmx.JMXConstantsExt.DEFAULT_REMOTE_RMI_PORT;
 import static org.jboss.osgi.jmx.JMXConstantsExt.DEFAULT_REMOTE_RMI_HOST;
-import static org.jboss.osgi.jmx.JMXConstantsExt.REMOTE_RMI_PORT;
+import static org.jboss.osgi.jmx.JMXConstantsExt.DEFAULT_REMOTE_RMI_PORT;
 import static org.jboss.osgi.jmx.JMXConstantsExt.REMOTE_RMI_HOST;
+import static org.jboss.osgi.jmx.JMXConstantsExt.REMOTE_RMI_PORT;
+import static org.jboss.osgi.jmx.internal.JMXLogger.LOGGER;
 
 import java.io.IOException;
 
 import javax.management.MBeanServer;
 import javax.management.remote.JMXServiceURL;
 
-import org.jboss.logging.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -44,9 +44,6 @@ import org.osgi.framework.BundleContext;
  */
 public class JMXServiceActivator implements BundleActivator
 {
-   // Provide logging
-   private static final Logger log = Logger.getLogger(JMXServiceActivator.class);
-
    private JMXConnectorService jmxConnector;
    private String rmiHost;
    private String rmiPortStr;
@@ -78,7 +75,7 @@ public class JMXServiceActivator implements BundleActivator
       }
       catch (IOException ex)
       {
-         log.error("Cannot start JMXConnectorServer", ex);
+         LOGGER.errorCannotStartConnectorServer(ex);
       }
    }
 
